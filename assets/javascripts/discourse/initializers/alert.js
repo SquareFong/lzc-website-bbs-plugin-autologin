@@ -3,6 +3,7 @@ export default {
   name: 'alert',
   initialize() {
     console.log(util)
+    util.initEnv()
     console.log('alert boxes are annoying!');
     if (util.isAndroid()) {
       console.log("在安卓里面")

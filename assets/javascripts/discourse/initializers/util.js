@@ -1,26 +1,7 @@
 
 const tokenKey = "userToken"
 
-var view = {
-    isInApplication: () => false,
-    isWebShell: () => false,
-    isAndroid: () => false,
-    isPC: () => false,
-    isIos: () => false,
-    isControlView: () => false,
-    isContentView: () => false,
-    SwitchContentView: (num) => { },
-    ToggleControlViewStatus: () => { },
-    SetContentViewUrl: (url, num) => { },
-    SetValue: (url, num) => { },
-    GetValue: () => PromiseData(null),
-    SetControlViewVisibility: (visibility) => { },
-    GetControlViewVisibility: () => PromiseData(null),
-    GetContentViewUrl: (index) => PromiseData(null),
-    OpenDialog: () => { },
-    CloseDialog: (content) => { },
-}
-
+var view;
 // 是否在应用内
 function isInApplication() {
     return !!navigator.userAgent.indexOf("Lazycat_Client")
@@ -116,7 +97,8 @@ export default {
     isPC,
     isInApplication,
     isWebShell,
-    initialize() {
+    initialize() { console.log("util initialize"); },
+    initEnv() {
         if (isAndroid()) {
             // @ts-ignore
             view = android
