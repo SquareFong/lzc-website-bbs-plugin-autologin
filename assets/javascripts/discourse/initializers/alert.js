@@ -1,6 +1,6 @@
 import util from "./util";
 export default {
-  name: 'alert',
+  name: 'lzc-website-bbs-plugin-autologin',
   initialize() {
     console.log(util)
     util.initEnv()
