@@ -1,10 +1,7 @@
 import util from "./util";
 export default {
   name: 'lzc-website-bbs-plugin-autologin',
-  initialize() {
-    console.log(util)
-    util.initEnv()
-    console.log('alert boxes are annoying!');
+  autoSso() {
     if (util.isAndroid()) {
       console.log("在安卓里面")
       console.log(util.GetToken())
@@ -19,5 +16,22 @@ export default {
     } else {
       console.log("在浏览器里")
     }
+  },
+  initialize() {
+    console.log(util)
+    util.initEnv()
+    console.log('initialize sso login');
+    // 感知切webview
+    addEventListener('main_app_api', (event) => {
+      console.log("main_app_api", event)
+      this.autoSso()
+    });
+
+    // 感知app唤醒
+    addEventListener('visibilitychange', (event) => {
+      if (document.visibilityState === 'visible') {
+        this.autoSso()
+      }
+    })
   }
 };
