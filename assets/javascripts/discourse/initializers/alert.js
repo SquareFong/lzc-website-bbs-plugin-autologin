@@ -9,8 +9,12 @@ export default {
     return null
   },
   autoSso() {
-    if (util.isAndroid()) {
-      console.log("在安卓里面")
+    if (util.isInApplication()) {
+      console.log("在客户端中")
+
+      // 强制调出底栏
+      util.SetControlViewVisibility(true)
+
       console.log(util.GetToken())
       let data = JSON.parse(document.getElementById("data-preloaded").dataset.preloaded)
 

@@ -4,7 +4,7 @@ const tokenKey = "userToken"
 var view;
 // 是否在应用内
 function isInApplication() {
-    return !!navigator.userAgent.indexOf("Lazycat_Client")
+    return navigator.userAgent.indexOf("Lazycat_Client") != -1
 }
 
 // 是否在新窗口打开的壳
@@ -87,11 +87,26 @@ function GetToken() {
     return token
 }
 
+function ToggleControlViewStatus() {
+  view.ToggleControlViewStatus()
+}
+
+// 获取导航栏(nav) 显示的状态
+function GetControlViewVisibility() {
+  return view.GetControlViewVisibility()
+}
+
+// 调用这个可以确保controlview的状态是你指定的
+function SetControlViewVisibility(visibility) {
+  !(visibility == GetControlViewVisibility()) && ToggleControlViewStatus()
+}
+
 export default {
     name: "sso-utils",
     GetToken,
     GetValue,
     SetValue,
+    SetControlViewVisibility,
     isAndroid,
     isIos,
     isPC,
