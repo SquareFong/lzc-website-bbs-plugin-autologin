@@ -30,12 +30,20 @@ function isIos() {
 
 // 设置指定key 对应的value
 function SetValue(key, value) {
-    view.SetValue(key, value);
+    if (isAndroid()) {
+        lzc_kv.SetValue(key, value);
+    } else {
+        view.SetValue(key, value);
+    }
 }
 
 // 获取指定key的value
 function GetValue(key) {
-    return view.GetValue(key);
+    if(isAndroid()){
+       return lzc_kv.GetValue(key)
+    }else{
+        return view.GetValue(key);
+    }
 }
 function setTokenByKv(token) {
     let tk = {
@@ -93,7 +101,11 @@ function ToggleControlViewStatus() {
 
 // 获取导航栏(nav) 显示的状态
 function GetControlViewVisibility() {
-  return view.GetControlViewVisibility()
+    if(isAndroid()){
+        return lzc_tab.GetControlViewVisibility()
+    }else{
+        return  view.GetControlViewVisibility()
+    }
 }
 
 // 调用这个可以确保controlview的状态是你指定的
