@@ -1,3 +1,4 @@
+import util from "./util";
 const tokenKey = "userToken"
 export default {
   name: 'lzc-website-bbs-plugin-autologin',
@@ -12,7 +13,7 @@ export default {
   async GetToken() {
     // 如果是安卓客户端（TODO：测试其他平台应用内兼容性），通过KV键值对存取token
     // 否则用cookie
-    if (this.lzcext.isInApplication()) {
+    if (util.isAndroid()) {
       return await this.getTokenByKv()
     }
 
@@ -27,7 +28,7 @@ export default {
     return token
   },
   async getTokenByKv() {
-    let tkStr = await this.lzcext.GetValue(tokenKey)
+    let tkStr = await util.GetValue(tokenKey)
     let tk = null
     if (!!tkStr) {
       try {
@@ -56,15 +57,15 @@ export default {
       expireAt: token == "" ? new Date(0).toUTCString() : this.expiresFromNow(),
     }
 
-    this.lzcext.SetValue(tokenKey, JSON.stringify(tk))
-    console.log("test value of ", tokenKey, ":", this.lzcext.GetValue(tokenKey))
+    util.SetValue(tokenKey, JSON.stringify(tk))
+    console.log("test value of ", tokenKey, ":", util.GetValue(tokenKey))
   },
   async autoSso() {
-    if (this.lzcext.isInApplication()) {
+    if (util.isAndroid()) {
       console.log("在客户端中")
 
       // 强制调出底栏
-      this.lzcext.SetControlViewVisibility(true)
+      util.SetControlViewVisibility(true)
       let userToken = await this.GetToken()
       console.log("token", userToken)
       let data = JSON.parse(document.getElementById("data-preloaded").dataset.preloaded)
@@ -95,12 +96,12 @@ export default {
     }
   },
   async initialize() {
-    this.lzcext = await import("https://cdn.jsdelivr.net/npm/@lazycatcloud/lzc-app-ext@latest/dist/index.js")
+    // this.lzcext = await import("https://cdn.jsdelivr.net/npm/@lazycatcloud/lzc-app-ext@latest/dist/index.js")
     console.log("lzcext", this.lzcext);
 
     console.log('initialize sso login');
 
-    if (this.lzcext.isInApplication()) {
+    if (util.isAndroid()) {
       let sty = document.createElement("style")
       sty.innerHTML += "li.logout{display:none;}"
       document.head.append(sty)
